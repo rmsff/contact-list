@@ -1,6 +1,6 @@
 module.exports = (req, res, next) => {
 	const token = 'eyJkYXRhIjp7IiRfXyI6eyJ';
-	const authorizedPath = ['/contacts'];
+	const authorizedPaths = ['/contacts'];
 
 	if (req.method === 'POST' && req.path === '/signin') {
 		if (req.body.email === 'demo@mail.com' && req.body.password === 'Demo111') {
@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
 		return;
 	}
 
-	if (authorizedPath.includes(req.path)) {
+	if (authorizedPaths.includes(req.path)) {
 		if (req.headers.token === token) {
 			next();
 		} else {

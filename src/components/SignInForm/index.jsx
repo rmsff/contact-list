@@ -15,7 +15,7 @@ export default ({
 	const handleSubmitForm = event => {
 		event.preventDefault();
 		event.keyCode === 13 && handleSubmit(event);
-	}; // !!
+	};
 
 	return (
 		<div className="auth">

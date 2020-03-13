@@ -10,8 +10,8 @@ const mapStateToProps = state => ({ isAuth: state.user.isAuth });
 const Auth = ({ isAuth }) => {
 	return (
 		<div className="auth-page">
-			<Route exact path={['/', '/signin']} component={SignInForm} />
-			{isAuth && <Redirect to="/home" />}
+			<Route exact path={['/signin']} component={SignInForm} />
+			{isAuth && <Redirect to="/contacts" />}
 		</div>
 	);
 };

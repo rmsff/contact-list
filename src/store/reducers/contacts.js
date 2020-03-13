@@ -1,6 +1,8 @@
 const initialState = {
 	items: [],
 	isLoading: false,
+	isSubmiting: false,
+	isVisibleForm: false,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -10,6 +12,26 @@ export default (state = initialState, { type, payload }) => {
 				...state,
 				items: payload,
 				isLoading: false,
+			};
+		case 'CONTACTS:SET_IS_LOADING':
+			return {
+				...state,
+				isLoading: payload,
+			};
+		case 'CONTACTS:SET_IS_SUBMITING':
+			return {
+				...state,
+				isSubmiting: payload,
+			};
+		case 'CONTACTS:ADD_CONTACT':
+			return {
+				items: [payload, ...state.items],
+				isLoading: false,
+			};
+		case 'CONTACTS:SET_IS_VISIBLE_FORM':
+			return {
+				...state,
+				isVisibleForm: payload,
 			};
 		default:
 			return state;
