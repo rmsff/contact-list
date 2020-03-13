@@ -1,23 +1,100 @@
 import React, { useState } from 'react';
 import Highlighter from 'react-highlight-words';
-import { Input, Button } from 'antd';
+import { Input, Button, Form, InputNumber, Popconfirm, Spin } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 import { connect } from 'react-redux';
 import { contactAction } from 'store/actions';
 import { ContactList } from 'components';
 
-const mapStateToProps = ({ contacts: { items, isLoading }, fetchContacts }) => ({
+const mapStateToProps = ({
+	setContacts,
+	editContact,
+	contacts: { items, isLoading, isSubmiting },
+}) => ({
 	items,
 	isLoading,
-	fetchContacts,
+	isSubmiting,
+	setContacts,
+	editContact,
 });
 
-const ContactListContainer = ({ items, isLoading, fetchContacts }) => {
+const EditableCell = ({
+	editing,
+	dataIndex,
+	title,
+	inputType,
+	record,
+	index,
+	children,
+	...restProps
+}) => {
+	const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+	return (
+		<td {...restProps}>
+			{editing ? (
+				<Form.Item
+					name={dataIndex}
+					style={{
+						margin: 0,
+					}}
+					rules={[
+						{
+							required: true,
+							message: `Please Input ${title}!`,
+						},
+					]}>
+					{inputNode}
+				</Form.Item>
+			) : (
+				children
+			)}
+		</td>
+	);
+};
+
+const ContactListContainer = ({
+	items,
+	isLoading,
+	isSubmiting,
+	setContacts,
+	editContact,
+}) => {
 	const [searchText, setSearchText] = useState('');
 	const [searchedColumn, setSearchedColumn] = useState('');
 	const [sortedInfo, setSortedInfo] = useState({});
+	const [editingKey, setEditingKey] = useState('');
 
+	const [form] = Form.useForm();
+
+	const isEditing = record => {
+		return record.id === editingKey;
+	};
+	const edit = record => {
+		form.setFieldsValue({ ...record });
+		setEditingKey(record.id);
+	};
+	const cancel = () => setEditingKey('');
+	const handleSave = async id => {
+		try {
+			const row = await form.validateFields();
+			const newData = [...items];
+			const index = newData.findIndex(item => id === item.id);
+
+			if (index > -1) {
+				const item = newData[index];
+				newData.splice(index, 1, { ...item, ...row });
+				const newItem = newData[index];
+				editContact({ newItem, newData, setEditingKey });
+			} else {
+				newData.push(row);
+				setContacts(newData);
+				setEditingKey('');
+			}
+		} catch (errInfo) {
+			console.log('Validate Failed:', errInfo);
+		}
+	};
 	const handleChange = (_pagination, _filters, sorter) => setSortedInfo(sorter);
 	const handleSearch = (selectedKeys, confirm, dataIndex) => {
 		confirm();
@@ -31,6 +108,42 @@ const ContactListContainer = ({ items, isLoading, fetchContacts }) => {
 
 	let searchInput = {};
 	const getColumnProps = dataIndex => {
+		if (dataIndex === 'actions') {
+			return {
+				dataIndex,
+				key: dataIndex,
+				render: (_, record) => {
+					const editable = isEditing(record);
+					return editable ? (
+						<Spin spinning={isSubmiting}>
+							<span>
+								<a
+									href="javascript:;"
+									onClick={() => {
+										handleSave(record.id);
+									}}
+									style={{ marginRight: 8 }}>
+									Save
+								</a>
+								<Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+									<a href="record-pop">Cancel</a>
+								</Popconfirm>
+							</span>
+						</Spin>
+					) : (
+						<a
+							href="record-edit"
+							disabled={editingKey !== ''}
+							onClick={e => {
+								edit(record);
+								e.preventDefault();
+							}}>
+							Edit
+						</a>
+					);
+				},
+			};
+		}
 		const sorterMapping = {
 			id: (a, b) => a.id - b.id,
 			phone: (a, b) => a.phone.replace(/-|\(|\)/g, '') - b.phone.replace(/-|\(|\)/g, ''),
@@ -40,7 +153,7 @@ const ContactListContainer = ({ items, isLoading, fetchContacts }) => {
 		return {
 			dataIndex,
 			key: dataIndex,
-			ellipsis: true,
+			editable: true,
 			filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
 				<div style={{ padding: 8 }}>
 					<Input
@@ -56,7 +169,6 @@ const ContactListContainer = ({ items, isLoading, fetchContacts }) => {
 					<Button
 						type="primary"
 						onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-						icon="search"
 						size="small"
 						style={{ width: 90, marginRight: 8 }}>
 						Search
@@ -127,15 +239,36 @@ const ContactListContainer = ({ items, isLoading, fetchContacts }) => {
 			width: '20%',
 			...getColumnProps('address'),
 		},
+		{
+			title: 'actions',
+			width: '13%',
+			...getColumnProps('actions'),
+		},
 	];
+
+	const mergedColumns = columns.map(col => {
+		if (!col.editable) return col;
+		return {
+			...col,
+			onCell: record => ({
+				record,
+				inputType: col.dataIndex === 'number' ? 'number' : 'text',
+				dataIndex: col.dataIndex,
+				title: col.title,
+				editing: isEditing(record),
+			}),
+		};
+	});
 
 	return (
 		<ContactList
-			columns={columns}
+			form={form}
 			items={items}
-			setSortedInfo={setSortedInfo}
 			onChange={handleChange}
 			isLoading={isLoading}
+			mergedColumns={mergedColumns}
+			EditableCell={EditableCell}
+			cancel={cancel}
 		/>
 	);
 };

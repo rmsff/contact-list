@@ -68,6 +68,28 @@ const Actions = {
 				dispatch(Actions.setIsVisibleForm(false));
 			});
 	},
+	editContact: ({ newItem, newData, setEditingKey }) => dispatch => {
+		dispatch(Actions.setIsSubmiting(true));
+		contactsApi
+			.edit(newItem)
+			.then(() => {
+				openNotification({
+					type: 'success',
+					message: 'Сontact edited successfully',
+					duration: 4,
+				});
+				dispatch(Actions.setContacts(newData));
+				dispatch(Actions.setIsSubmiting(false));
+				setEditingKey('');
+			})
+			.catch(err => {
+				openNotification({
+					type: 'error',
+					message: 'An error occurred while sending the data',
+				});
+				dispatch(Actions.setIsSubmiting(false));
+			});
+	},
 };
 
 export default Actions;

@@ -1,14 +1,34 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Table, Form } from 'antd';
 
-export default ({ columns, items, onChange, isLoading }) => (
-	<Table
-		columns={columns}
-		dataSource={items}
-		onChange={onChange}
-		pagination={{ pageSize: 20 }}
-		rowKey={record => record.id}
-		loading={isLoading}
-		bordered="true"
-	/>
-);
+const ContactList = ({
+	form,
+	items,
+	onChange,
+	isLoading,
+	mergedColumns,
+	EditableCell,
+	cancel,
+}) => {
+	return (
+		<Form form={form} component={false}>
+			<Table
+				components={{
+					body: {
+						cell: EditableCell,
+					},
+				}}
+				columns={mergedColumns}
+				rowClassName="editable-row"
+				dataSource={items}
+				onChange={onChange}
+				pagination={{ pageSize: 20, onChange: cancel }}
+				rowKey={record => record.id}
+				loading={isLoading}
+				bordered
+			/>
+		</Form>
+	);
+};
+
+export default ContactList;
