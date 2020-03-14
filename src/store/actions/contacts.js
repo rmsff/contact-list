@@ -24,11 +24,21 @@ const Actions = {
 				dispatch(Actions.setIsLoading(false));
 			})
 			.catch(err => {
-				openNotification({
-					type: 'error',
-					message: 'Error receiving data',
-				});
-				dispatch(Actions.setIsLoading(false));
+				if (err.response.status === 403) {
+					openNotification({
+						type: 'error',
+						message: 'You are not autorized',
+					});
+					dispatch(Actions.setIsLoading(false));
+					localStorage.removeItem('token');
+					setTimeout(() => window.location.reload(), 2000);
+				} else {
+					openNotification({
+						type: 'error',
+						message: 'Error receiving data',
+					});
+				}
+				return 'err';
 			});
 	},
 	setIsSubmitting: isSubmitting => ({
