@@ -8,7 +8,7 @@ export default (state = initialState, { type, payload }) => {
 		case 'USER:SET_DATA':
 			return {
 				...state,
-				isAuth: true,
+				isAuth: payload,
 			};
 		case 'USER:SET_IS_SUBMITTING':
 			return {

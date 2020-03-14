@@ -3,6 +3,7 @@ import { openNotification } from 'utils/helpers';
 import { axios } from 'core';
 
 const Actions = {
+	setUserData: ({ isAuth }) => ({ type: 'USER:SET_DATA', payload: isAuth }),
 	fetchUserSignIn: postData => dispatch => {
 		dispatch({ type: 'USER:SET_IS_SUBMITTING', payload: true });
 
@@ -13,7 +14,7 @@ const Actions = {
 				if (status === 'success') {
 					window.localStorage['token'] = token;
 					axios.defaults.headers.common['token'] = token;
-					dispatch({ type: 'USER:SET_DATA' });
+					dispatch(Actions.setUserData({ isAuth: true }));
 					openNotification({
 						type: 'success',
 						message: 'You are successfully logged in',

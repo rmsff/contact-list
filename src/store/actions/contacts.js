@@ -1,5 +1,6 @@
 import { contactsApi } from 'utils/api';
 import { openNotification } from 'utils/helpers';
+import userActions from './user';
 
 const Actions = {
 	setContacts: items => ({
@@ -28,10 +29,11 @@ const Actions = {
 					openNotification({
 						type: 'error',
 						message: 'You are not autorized',
+						duration: 6,
 					});
 					dispatch(Actions.setIsLoading(false));
+					dispatch(userActions.setUserData({ isAuth: false }));
 					localStorage.removeItem('token');
-					setTimeout(() => window.location.reload(), 2000);
 				} else {
 					openNotification({
 						type: 'error',
