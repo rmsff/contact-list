@@ -11,8 +11,8 @@ const SignInFormContainer = withFormik({
 		password: '',
 	}),
 	validate: values => validateForm({ isAuth: true, values }),
-	handleSubmit: (values, { setSubmitting }) => {
-		store.dispatch(userActions.fetchUserSignIn(values, setSubmitting));
+	handleSubmit: values => {
+		store.dispatch(userActions.fetchUserSignIn(values));
 	},
 	displayName: 'SignInForm',
 })(SignInForm);

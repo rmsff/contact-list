@@ -4,6 +4,8 @@ import { axios } from 'core';
 
 const Actions = {
 	fetchUserSignIn: postData => dispatch => {
+		dispatch({ type: 'USER:SET_IS_SUBMITING', payload: true });
+
 		userApi
 			.signIn(postData)
 			.then(({ data }) => {
@@ -23,6 +25,7 @@ const Actions = {
 						description: 'Invalid username or password',
 					});
 				}
+				dispatch({ type: 'USER:SET_IS_SUBMITING', payload: false });
 			})
 			.catch(() =>
 				openNotification({

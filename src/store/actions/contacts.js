@@ -52,6 +52,7 @@ const Actions = {
 			.then(({ data }) => {
 				dispatch(Actions.addContact(data));
 				openNotification({
+					type: 'success',
 					message: 'Contact added successfully',
 					duration: 4,
 				});
@@ -68,7 +69,7 @@ const Actions = {
 				dispatch(Actions.setIsVisibleForm(false));
 			});
 	},
-	editContact: ({ newItem, newData, setEditingKey }) => dispatch => {
+	editContact: ({ newItem, newContacts, setEditingKey }) => dispatch => {
 		dispatch(Actions.setIsSubmiting(true));
 		contactsApi
 			.edit(newItem)
@@ -78,7 +79,7 @@ const Actions = {
 					message: 'Сontact edited successfully',
 					duration: 4,
 				});
-				dispatch(Actions.setContacts(newData));
+				dispatch(Actions.setContacts(newContacts));
 				dispatch(Actions.setIsSubmiting(false));
 				setEditingKey('');
 			})
@@ -88,6 +89,30 @@ const Actions = {
 					message: 'An error occurred while sending the data',
 				});
 				dispatch(Actions.setIsSubmiting(false));
+			});
+	},
+	removeContact: ({ id, newContacts, setDeletingKey }) => dispatch => {
+		setDeletingKey(id);
+		dispatch(Actions.setIsSubmiting(true));
+		contactsApi
+			.remove(id)
+			.then(() => {
+				openNotification({
+					type: 'success',
+					message: 'Сontact delited successfully',
+					duration: 4,
+				});
+				dispatch(Actions.setContacts(newContacts));
+				dispatch(Actions.setIsSubmiting(false));
+				setDeletingKey('');
+			})
+			.catch(err => {
+				openNotification({
+					type: 'error',
+					message: 'An error occurred while sending the data',
+				});
+				dispatch(Actions.setIsSubmiting(false));
+				setDeletingKey('');
 			});
 	},
 };

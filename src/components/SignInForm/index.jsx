@@ -3,20 +3,21 @@ import { Form, Input, Button } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { validateField } from 'utils/helpers';
 
-export default ({
+import { connect } from 'react-redux';
+
+const SignInForm = ({
 	values,
 	touched,
 	errors,
 	handleChange,
 	handleBlur,
 	handleSubmit,
-	isSubmitting,
+	user: { isSubmiting },
 }) => {
 	const handleSubmitForm = event => {
 		event.preventDefault();
 		event.keyCode === 13 && handleSubmit(event);
 	};
-
 	return (
 		<div className="auth">
 			<div className="auth__header">
@@ -25,14 +26,14 @@ export default ({
 				<p>Please enter your username and password</p>
 			</div>
 			<div className="auth__body">
-				<Form onSubmit={handleSubmit} className="signin-form">
+				<Form onFinish={handleSubmit} className="signin-form">
 					<Form.Item
 						validateStatus={validateField('email', touched, errors)}
 						help={touched.email && errors.email}
 						hasFeedback>
 						<Input
 							onKeyUp={handleSubmitForm}
-							disabled={isSubmitting}
+							disabled={isSubmiting}
 							id="email"
 							prefix={<MailOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
 							placeholder="E-mail"
@@ -48,9 +49,9 @@ export default ({
 						hasFeedback>
 						<Input
 							onKeyUp={handleSubmitForm}
-							disabled={isSubmitting}
+							disabled={isSubmiting}
 							id="password"
-							prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+							prefix={<LockOutlined type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
 							type="password"
 							placeholder="password"
 							size="large"
@@ -60,11 +61,7 @@ export default ({
 						/>
 					</Form.Item>
 					<Form.Item>
-						<Button
-							disabled={isSubmitting}
-							onClick={handleSubmit}
-							type="primary"
-							size="large">
+						<Button disabled={isSubmiting} htmlType="submit" type="primary" size="large">
 							Sign in
 						</Button>
 					</Form.Item>
@@ -73,3 +70,5 @@ export default ({
 		</div>
 	);
 };
+
+export default connect(({ user }) => ({ user }))(SignInForm);

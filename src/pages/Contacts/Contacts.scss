@@ -4,4 +4,12 @@
   &__header {
     margin-bottom: 10px;
   }
+
+  &__body {
+    .actions-block {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+  }
 }

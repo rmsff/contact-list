@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { Auth, Contacts } from './pages';
-import './App.scss';
 
 const mapStateToProps = state => ({ isAuth: state.user.isAuth });
 

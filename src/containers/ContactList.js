@@ -10,6 +10,7 @@ import { ContactList } from 'components';
 const mapStateToProps = ({
 	setContacts,
 	editContact,
+	removeContact,
 	contacts: { items, isLoading, isSubmiting },
 }) => ({
 	items,
@@ -17,6 +18,7 @@ const mapStateToProps = ({
 	isSubmiting,
 	setContacts,
 	editContact,
+	removeContact,
 });
 
 const EditableCell = ({
@@ -59,11 +61,13 @@ const ContactListContainer = ({
 	isSubmiting,
 	setContacts,
 	editContact,
+	removeContact,
 }) => {
 	const [searchText, setSearchText] = useState('');
 	const [searchedColumn, setSearchedColumn] = useState('');
 	const [sortedInfo, setSortedInfo] = useState({});
 	const [editingKey, setEditingKey] = useState('');
+	const [deletingKey, setDeletingKey] = useState('');
 
 	const [form] = Form.useForm();
 
@@ -78,22 +82,26 @@ const ContactListContainer = ({
 	const handleSave = async id => {
 		try {
 			const row = await form.validateFields();
-			const newData = [...items];
-			const index = newData.findIndex(item => id === item.id);
+			const newContacts = [...items];
+			const index = newContacts.findIndex(item => id === item.id);
 
 			if (index > -1) {
-				const item = newData[index];
-				newData.splice(index, 1, { ...item, ...row });
-				const newItem = newData[index];
-				editContact({ newItem, newData, setEditingKey });
+				const item = newContacts[index];
+				newContacts.splice(index, 1, { ...item, ...row });
+				const newItem = newContacts[index];
+				editContact({ newItem, newContacts, setEditingKey });
 			} else {
-				newData.push(row);
-				setContacts(newData);
+				newContacts.push(row);
+				setContacts(newContacts);
 				setEditingKey('');
 			}
 		} catch (errInfo) {
 			console.log('Validate Failed:', errInfo);
 		}
+	};
+	const handleDelete = id => {
+		const newContacts = items.filter(item => item.id !== id);
+		removeContact({ id, newContacts, setDeletingKey });
 	};
 	const handleChange = (_pagination, _filters, sorter) => setSortedInfo(sorter);
 	const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -116,30 +124,41 @@ const ContactListContainer = ({
 					const editable = isEditing(record);
 					return editable ? (
 						<Spin spinning={isSubmiting}>
-							<span>
-								<a
-									href="javascript:;"
-									onClick={() => {
-										handleSave(record.id);
-									}}
-									style={{ marginRight: 8 }}>
-									Save
-								</a>
-								<Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-									<a href="record-pop">Cancel</a>
-								</Popconfirm>
-							</span>
+							<div className="actions-block">
+								<span>
+									<a
+										href="javascript"
+										onClick={() => handleSave(record.id)}
+										style={{ marginRight: 8 }}>
+										Save
+									</a>
+									<Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+										<a href="record-pop">Cancel</a>
+									</Popconfirm>
+								</span>
+							</div>
 						</Spin>
 					) : (
-						<a
-							href="record-edit"
-							disabled={editingKey !== ''}
-							onClick={e => {
-								edit(record);
-								e.preventDefault();
-							}}>
-							Edit
-						</a>
+						<Spin spinning={isSubmiting && deletingKey === record.id}>
+							<div className="actions-block">
+								<a
+									href="record-edit"
+									disabled={editingKey !== ''}
+									onClick={e => {
+										edit(record);
+										e.preventDefault();
+									}}>
+									Edit
+								</a>
+								<Popconfirm
+									title="Sure to delete?"
+									onConfirm={() => handleDelete(record.id)}>
+									<a href="record-delete" disabled={editingKey !== ''}>
+										Delete
+									</a>
+								</Popconfirm>
+							</div>
+						</Spin>
 					);
 				},
 			};
@@ -226,22 +245,22 @@ const ContactListContainer = ({
 		},
 		{
 			title: 'email',
-			width: '21%',
+			width: '20%',
 			...getColumnProps('email'),
 		},
 		{
 			title: 'phone',
-			width: '20%',
+			width: '19%',
 			...getColumnProps('phone'),
 		},
 		{
 			title: 'address',
-			width: '20%',
+			width: '19%',
 			...getColumnProps('address'),
 		},
 		{
 			title: 'actions',
-			width: '13%',
+			width: '18%',
 			...getColumnProps('actions'),
 		},
 	];
