@@ -11,7 +11,7 @@ const App = ({ isAuth }) => {
 	return (
 		<div className="wrapper">
 			<Switch>
-				<Route exact path={['/signin']} component={Auth} />
+				<Route exact path="/signin" component={Auth} />
 				<Route path="/" render={render} />
 			</Switch>
 		</div>
