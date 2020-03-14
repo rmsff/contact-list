@@ -1,5 +1,10 @@
 This project is a test task and was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+```
+login: demo@mail.com
+pass: Demo111
+```
+
 ##
   **Stack:**
 -   ReactJS
