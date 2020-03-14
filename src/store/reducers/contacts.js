@@ -1,7 +1,7 @@
 const initialState = {
 	items: [],
 	isLoading: false,
-	isSubmiting: false,
+	isSubmitting: false,
 	isVisibleForm: false,
 };
 
@@ -17,10 +17,10 @@ export default (state = initialState, { type, payload }) => {
 				...state,
 				isLoading: payload,
 			};
-		case 'CONTACTS:SET_IS_SUBMITING':
+		case 'CONTACTS:SET_IS_SUBMITTING':
 			return {
 				...state,
-				isSubmiting: payload,
+				isSubmitting: payload,
 			};
 		case 'CONTACTS:ADD_CONTACT':
 			return {

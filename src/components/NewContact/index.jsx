@@ -4,7 +4,7 @@ import { Button, Modal, Form, Input } from 'antd';
 export default ({
 	onIsVisibleModal,
 	isVisibleForm,
-	isSubmiting,
+	isSubmitting,
 	handleAddContactWrapper,
 	validate,
 }) => {
@@ -36,8 +36,8 @@ export default ({
 					<Input />
 				</Form.Item>
 				<Form.Item wrapperCol={{ offset: 10 }}>
-					<Button loading={isSubmiting} type="primary" htmlType="submit" size="large">
-						{isSubmiting ? ' Submiting' : 'Submit'}
+					<Button loading={isSubmitting} type="primary" htmlType="submit" size="large">
+						{isSubmitting ? ' Submitting' : 'Submit'}
 					</Button>
 				</Form.Item>
 			</Form>

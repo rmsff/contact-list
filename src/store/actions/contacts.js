@@ -31,9 +31,9 @@ const Actions = {
 				dispatch(Actions.setIsLoading(false));
 			});
 	},
-	setIsSubmiting: isSubmiting => ({
-		type: 'CONTACTS:SET_IS_SUBMITING',
-		payload: isSubmiting,
+	setIsSubmitting: isSubmitting => ({
+		type: 'CONTACTS:SET_IS_SUBMITTING',
+		payload: isSubmitting,
 	}),
 	setIsVisibleForm: isVisible => ({
 		type: 'CONTACTS:SET_IS_VISIBLE_FORM',
@@ -45,7 +45,7 @@ const Actions = {
 			payload: item,
 		}),
 	submitContact: (contact, refForm) => dispatch => {
-		dispatch(Actions.setIsSubmiting(true));
+		dispatch(Actions.setIsSubmitting(true));
 		contactsApi
 			.create(contact)
 			.then(({ data }) => {
@@ -55,7 +55,7 @@ const Actions = {
 					message: 'Contact added successfully',
 					duration: 4,
 				});
-				dispatch(Actions.setIsSubmiting(false));
+				dispatch(Actions.setIsSubmitting(false));
 				dispatch(Actions.setIsVisibleForm(false));
 				refForm.resetFields();
 			})
@@ -64,12 +64,12 @@ const Actions = {
 					type: 'error',
 					message: 'An error occurred while sending the data',
 				});
-				dispatch(Actions.setIsSubmiting(false));
+				dispatch(Actions.setIsSubmitting(false));
 				dispatch(Actions.setIsVisibleForm(false));
 			});
 	},
 	editContact: ({ newItem, newContacts, setEditingKey }) => dispatch => {
-		dispatch(Actions.setIsSubmiting(true));
+		dispatch(Actions.setIsSubmitting(true));
 		contactsApi
 			.edit(newItem)
 			.then(() => {
@@ -79,7 +79,7 @@ const Actions = {
 					duration: 4,
 				});
 				dispatch(Actions.setContacts(newContacts));
-				dispatch(Actions.setIsSubmiting(false));
+				dispatch(Actions.setIsSubmitting(false));
 				setEditingKey('');
 			})
 			.catch(err => {
@@ -87,12 +87,12 @@ const Actions = {
 					type: 'error',
 					message: 'An error occurred while sending the data',
 				});
-				dispatch(Actions.setIsSubmiting(false));
+				dispatch(Actions.setIsSubmitting(false));
 			});
 	},
 	removeContact: ({ id, newContacts, setDeletingKey }) => dispatch => {
 		setDeletingKey(id);
-		dispatch(Actions.setIsSubmiting(true));
+		dispatch(Actions.setIsSubmitting(true));
 		contactsApi
 			.remove(id)
 			.then(() => {
@@ -102,7 +102,7 @@ const Actions = {
 					duration: 4,
 				});
 				dispatch(Actions.setContacts(newContacts));
-				dispatch(Actions.setIsSubmiting(false));
+				dispatch(Actions.setIsSubmitting(false));
 				setDeletingKey('');
 			})
 			.catch(err => {
@@ -110,7 +110,7 @@ const Actions = {
 					type: 'error',
 					message: 'An error occurred while sending the data',
 				});
-				dispatch(Actions.setIsSubmiting(false));
+				dispatch(Actions.setIsSubmitting(false));
 				setDeletingKey('');
 			});
 	},

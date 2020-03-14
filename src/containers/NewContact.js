@@ -7,18 +7,18 @@ import { NewContact } from 'components';
 const mapStateToProps = ({
 	setIsVisibleForm,
 	submitContact,
-	contacts: { isSubmiting, isVisibleForm },
+	contacts: { isSubmitting, isVisibleForm },
 }) => ({
 	setIsVisibleForm,
 	isVisibleForm,
-	isSubmiting,
+	isSubmitting,
 	submitContact,
 });
 
 const NewContactContainer = ({
 	setIsVisibleForm,
 	isVisibleForm,
-	isSubmiting,
+	isSubmitting,
 	submitContact,
 }) => {
 	const handleIsVisibleModal = () => {
@@ -36,7 +36,7 @@ const NewContactContainer = ({
 		<NewContact
 			onIsVisibleModal={handleIsVisibleModal}
 			isVisibleForm={isVisibleForm}
-			isSubmiting={isSubmiting}
+			isSubmitting={isSubmitting}
 			handleAddContactWrapper={handleAddContactWrapper}
 			validate={validate}
 		/>

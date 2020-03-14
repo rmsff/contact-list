@@ -11,11 +11,11 @@ const mapStateToProps = ({
 	setContacts,
 	editContact,
 	removeContact,
-	contacts: { items, isLoading, isSubmiting },
+	contacts: { items, isLoading, isSubmitting },
 }) => ({
 	items,
 	isLoading,
-	isSubmiting,
+	isSubmitting,
 	setContacts,
 	editContact,
 	removeContact,
@@ -58,7 +58,7 @@ const EditableCell = ({
 const ContactListContainer = ({
 	items,
 	isLoading,
-	isSubmiting,
+	isSubmitting,
 	setContacts,
 	editContact,
 	removeContact,
@@ -123,7 +123,7 @@ const ContactListContainer = ({
 				render: (_, record) => {
 					const editable = isEditing(record);
 					return editable ? (
-						<Spin spinning={isSubmiting}>
+						<Spin spinning={isSubmitting}>
 							<div className="actions-block">
 								<span>
 									<a
@@ -142,7 +142,7 @@ const ContactListContainer = ({
 							</div>
 						</Spin>
 					) : (
-						<Spin spinning={isSubmiting && deletingKey === record.id}>
+						<Spin spinning={isSubmitting && deletingKey === record.id}>
 							<div className="actions-block">
 								<a
 									href="record-edit"

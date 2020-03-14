@@ -12,7 +12,7 @@ const SignInForm = ({
 	handleChange,
 	handleBlur,
 	handleSubmit,
-	user: { isSubmiting },
+	user: { isSubmitting },
 }) => {
 	const handleSubmitForm = event => {
 		event.preventDefault();
@@ -33,7 +33,7 @@ const SignInForm = ({
 						hasFeedback>
 						<Input
 							onKeyUp={handleSubmitForm}
-							disabled={isSubmiting}
+							disabled={isSubmitting}
 							id="email"
 							addonBefore={<MailOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
 							placeholder="E-mail"
@@ -49,7 +49,7 @@ const SignInForm = ({
 						hasFeedback>
 						<Input
 							onKeyUp={handleSubmitForm}
-							disabled={isSubmiting}
+							disabled={isSubmitting}
 							id="password"
 							addonBefore={
 								<LockOutlined type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
@@ -63,7 +63,7 @@ const SignInForm = ({
 						/>
 					</Form.Item>
 					<Form.Item>
-						<Button disabled={isSubmiting} htmlType="submit" type="primary" size="large">
+						<Button disabled={isSubmitting} htmlType="submit" type="primary" size="large">
 							Sign in
 						</Button>
 					</Form.Item>

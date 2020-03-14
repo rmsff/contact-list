@@ -1,6 +1,6 @@
 const initialState = {
 	isAuth: !!window.localStorage.token,
-	isSubmiting: false,
+	isSubmitting: false,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -10,10 +10,10 @@ export default (state = initialState, { type, payload }) => {
 				...state,
 				isAuth: true,
 			};
-		case 'USER:SET_IS_SUBMITING':
+		case 'USER:SET_IS_SUBMITTING':
 			return {
 				...state,
-				isSubmiting: payload,
+				isSubmitting: payload,
 			};
 		default:
 			return state;
