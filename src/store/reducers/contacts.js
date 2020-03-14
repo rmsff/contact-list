@@ -11,7 +11,6 @@ export default (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				items: payload,
-				isLoading: false,
 			};
 		case 'CONTACTS:SET_IS_LOADING':
 			return {
@@ -25,8 +24,8 @@ export default (state = initialState, { type, payload }) => {
 			};
 		case 'CONTACTS:ADD_CONTACT':
 			return {
+				...state,
 				items: [payload, ...state.items],
-				isLoading: false,
 			};
 		case 'CONTACTS:SET_IS_VISIBLE_FORM':
 			return {

@@ -128,7 +128,10 @@ const ContactListContainer = ({
 								<span>
 									<a
 										href="javascript"
-										onClick={() => handleSave(record.id)}
+										onClick={e => {
+											handleSave(record.id);
+											e.preventDefault();
+										}}
 										style={{ marginRight: 8 }}>
 										Save
 									</a>

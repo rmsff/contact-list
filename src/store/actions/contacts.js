@@ -22,7 +22,6 @@ const Actions = {
 							duration: 8,
 					  });
 				dispatch(Actions.setIsLoading(false));
-				setSubmitting(false);
 			})
 			.catch(err => {
 				openNotification({

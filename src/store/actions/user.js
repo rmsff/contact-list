@@ -27,12 +27,13 @@ const Actions = {
 				}
 				dispatch({ type: 'USER:SET_IS_SUBMITING', payload: false });
 			})
-			.catch(() =>
+			.catch(() => {
 				openNotification({
 					type: 'error',
 					message: 'Server error',
-				})
-			);
+				});
+				dispatch({ type: 'USER:SET_IS_SUBMITING', payload: false });
+			});
 	},
 };
 

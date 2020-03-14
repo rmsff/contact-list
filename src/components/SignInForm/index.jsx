@@ -35,7 +35,7 @@ const SignInForm = ({
 							onKeyUp={handleSubmitForm}
 							disabled={isSubmiting}
 							id="email"
-							prefix={<MailOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+							addonBefore={<MailOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
 							placeholder="E-mail"
 							value={values.email}
 							size="large"
@@ -51,7 +51,9 @@ const SignInForm = ({
 							onKeyUp={handleSubmitForm}
 							disabled={isSubmiting}
 							id="password"
-							prefix={<LockOutlined type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+							addonBefore={
+								<LockOutlined type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
+							}
 							type="password"
 							placeholder="password"
 							size="large"

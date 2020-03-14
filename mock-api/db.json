@@ -1,28 +1,12 @@
 {
   "contacts": [
     {
-      "id": 71812,
-      "firstName": "Elridge",
-      "lastName": "Kovach",
-      "email": "CBottone@magna.ly",
-      "phone": "(668)738-3641",
-      "address": "2284 Massa Ln"
-    },
-    {
       "id": 71814,
       "firstName": "Jacqueline",
-      "lastName": "Morrison",
-      "email": "KPeacock@sollicitudin.gov",
-      "phone": "(393)823-0860",
-      "address": "9506 Sollicitudin Ave"
-    },
-    {
-      "id": 71815,
-      "firstName": "Mir",
-      "lastName": "Rich",
-      "email": "JHutchinson@tincidunt.org",
-      "phone": "(138)315-3196",
-      "address": "2920 Consequat Ave"
+      "lastName": "Morr",
+      "email": "KPeacock@sollicitudin.g",
+      "phone": "(393)823-086",
+      "address": "9506 Sollicitudin Avenue"
     },
     {
       "id": 71816,
